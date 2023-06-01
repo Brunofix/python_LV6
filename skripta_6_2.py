@@ -6,7 +6,7 @@ import matplotlib.image as mpimg
 import numpy as np
 
 
-filename = 'test.png'
+filename = 'test2.png'
 
 img = mpimg.imread(filename)[:, :, :3]
 img = color.rgb2gray(img)
