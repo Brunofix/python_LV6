@@ -8,7 +8,7 @@ import numpy as np
 
 filename = 'test.png'
 
-img = mpimg.imread(filename)[:,:,:3]
+img = mpimg.imread(filename)[:, :, :3]
 img = color.rgb2gray(img)
 img = resize(img, (28, 28))
 
@@ -16,21 +16,23 @@ plt.figure()
 plt.imshow(img, cmap=plt.get_cmap('gray'))
 plt.show()
 
+# Prebaciti sliku u vektor odgovarajuće veličine
+img = img.reshape(1, 28*28)
 
-# prebaciti sliku u vektor odgovarajuce velicine
-img = img.reshape(1,28*28)
+# Vrijednosti piksela kao float32 (bijela znamenka na crnoj pozadini) - po potrebi zakomentirajte ovisno o kakvoj je input slika
 
+# Učitavanje istrenirane neuronske mreže
+model = keras.models.load_model("FCN/")
 
-# vrijednosti piksela kao float32 (bijela znamenka na crnoj pozadini) - po potrebi zakomentirajte ovisno kakva je input slika
-img = 1 - img.astype('float32')
+# Napravi predikciju
+prediction = model.predict(img)
+predicted_label = np.argmax(prediction)
 
+# Ispisi predikciju
+print("Predicted label:", predicted_label)
 
-# TODO: ucitaj istreniranu neuronsku mrezu
-
-
-# TODO: napravi predikciju 
-
-
-# TODO: ispisi predikciju u terminal ili dodaj predikciju u title slike
-
-
+# Prikazi sliku s predikcijom
+plt.figure()
+plt.imshow(img.reshape(28, 28), cmap=plt.get_cmap('gray'))
+plt.title("Predicted label: " + str(predicted_label))
+plt.show()
